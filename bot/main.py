@@ -39,6 +39,20 @@ class Saco(Thread):
 saco = Saco()
 saco.start()
 
+class Linha(Thread):
+    def __init__(self):
+        super().__init__()
+        self.n_linha = 0
+    def run(self):
+        while True:
+            linha_ = linha.atualizar()
+            if linha_ != None:
+                self.n_linha = linha_
+
+line = Linha()
+line.start()
+                
+
         
 
 

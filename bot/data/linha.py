@@ -12,22 +12,22 @@ mouse = Controller()
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-from data import kg
-from data import fisgou
-from data import linha
-#######
+def atualizar():
 
-#vars
+    l = ImageGrab.grab(bbox=(2141,917,2300,1014))
 
-global state #pescar, recolher, arremessar, trocar dia
-global kg_atual
-global kg_max
-global fisgou
-global linha
-
-#dados
-
-
+    half = 3
+    out = l.resize([int(half * s) for s in l.size])
+    out.save('linha.jpg', 'jpeg')
+    
+    try:
+        texto = pytesseract.image_to_string(Image.open('linha.jpg'))
+        print(texto)
+        texto = int(texto)
+        return texto
+    except:
+        pass
+    
 
 
 
