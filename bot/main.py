@@ -33,12 +33,13 @@ line_bbox = (2141,917,2300,1014)
 #config vars
 casting_time = 2
 velocidade_recolhimento = 2
+kg_max = 100.0
 
 #dados
 
 time.sleep(3)
 
-kg_max = kg.get_kg_max(saco_bbox)
+#kg_max = kg.get_kg_max(saco_bbox)
 
 class Saco(Thread):
     def __init__(self):
@@ -75,15 +76,18 @@ class State(Thread):
     def __init__(self):
         super().__init__()
         #self.state = 'arremessar'
+        self.arremessou = False
     def run(self):
         while True:
             if saco.kg_atual < kg_max:
                 if line.n_linha == 0:
                     #self.state = 'arremessar'
                     arremessar.arremessar(casting_time, keep_button)
+                    self.arremessou = True
                 else:
                     #self.state = 'pescar'
                     pescar.twiching(keep_button)
+                    self.arremesou = False
             else:
                 trocar.trocar(next_morning_button, extend_button)
 

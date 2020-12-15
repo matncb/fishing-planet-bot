@@ -8,4 +8,4 @@ def arremessar(t, keep_button):
     mouse.press(Button.left)
     time.sleep(t)
     mouse.release(Button.left)
-    time.sleep(5)
+    time.sleep(2)
