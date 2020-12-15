@@ -14,11 +14,19 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 from data import kg
 from data import fisgou
 from data import linha
+
+from states import pescar
+from states import recolher
+from states import arremessar
+
+
 #######
 
 #vars
 
-global state #pescar, recolher, arremessar, trocar dia
+keep_button = (1444, 925)
+casting_time = 2
+velocidade_recolhimento = 2
 
 #dados
 
@@ -51,13 +59,42 @@ class Linha(Thread):
 
 line = Linha()
 line.start()
-                
 
-        
+####
 
+time.sleep(2)
+pescar.config(velocidade_recolhimento)
 
+class State(Thread):
+    def __init__(self):
+        super().__init__()
+        self.state = 'arremessar'
+    def run(self):
+        while True:
+            if saco.kg_atual < kg_max:
+                if line.n_linha == 0:
+                    #self.state = 'arremessar'
+                    arremessar.arremessar(casting_time, keep_button)
+                else:
+                    #self.state = 'pescar'
+                    pescar.twiching(keep_button)
 
+state = State()
+state.start()
 
+time.sleep(1)
+
+###
+
+'''
+while True:
+    if state.state == 'arremessar':
+        arremessar.arremessar(casting_time)
+    elif state.state == 'pescar':
+        pescar.twiching(keep_button)
+        print(line.n_linha)
+
+'''
 
 
 
