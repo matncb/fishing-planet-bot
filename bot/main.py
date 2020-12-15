@@ -18,6 +18,7 @@ from data import linha
 from states import pescar
 from states import recolher
 from states import arremessar
+from states import trocar
 
 
 #######
@@ -78,6 +79,8 @@ class State(Thread):
                 else:
                     #self.state = 'pescar'
                     pescar.twiching(keep_button)
+            else:
+                trocar.trocar()
 
 state = State()
 state.start()
