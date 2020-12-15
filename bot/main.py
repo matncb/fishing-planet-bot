@@ -23,9 +23,14 @@ from states import trocar
 
 #######
 
-#vars
-
+#positions
 keep_button = (1444, 925)
+next_morning_button = (1283, 869)
+extend_button = (1095, 677)
+saco_bbox = (115,175,254,202)
+line_bbox = (2141,917,2300,1014)
+
+#config vars
 casting_time = 2
 velocidade_recolhimento = 2
 
@@ -33,7 +38,7 @@ velocidade_recolhimento = 2
 
 time.sleep(3)
 
-kg_max = kg.get_kg_max()
+kg_max = kg.get_kg_max(saco_bbox)
 
 class Saco(Thread):
     def __init__(self):
@@ -41,7 +46,7 @@ class Saco(Thread):
         self.kg_atual = 0.0
     def run(self):
         while True:
-            kg_ = kg.atualizar()
+            kg_ = kg.atualizar(saco_bbox)
             if kg_ != None:
                 self.kg_atual = kg_
 
@@ -54,7 +59,7 @@ class Linha(Thread):
         self.n_linha = 0
     def run(self):
         while True:
-            linha_ = linha.atualizar()
+            linha_ = linha.atualizar(line_bbox)
             if linha_ != None:
                 self.n_linha = linha_
 
@@ -69,7 +74,7 @@ pescar.config(velocidade_recolhimento)
 class State(Thread):
     def __init__(self):
         super().__init__()
-        self.state = 'arremessar'
+        #self.state = 'arremessar'
     def run(self):
         while True:
             if saco.kg_atual < kg_max:
@@ -80,24 +85,13 @@ class State(Thread):
                     #self.state = 'pescar'
                     pescar.twiching(keep_button)
             else:
-                trocar.trocar()
+                trocar.trocar(next_morning_button, extend_button)
 
 state = State()
+time.sleep(1)
 state.start()
 
-time.sleep(1)
 
-###
-
-'''
-while True:
-    if state.state == 'arremessar':
-        arremessar.arremessar(casting_time)
-    elif state.state == 'pescar':
-        pescar.twiching(keep_button)
-        print(line.n_linha)
-
-'''
 
 
 

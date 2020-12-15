@@ -7,8 +7,8 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 
 kg = 0.0
 
-def get_kg_max():
-    saco = ImageGrab.grab(bbox=(115,175,254,202))
+def get_kg_max(saco_bbox):
+    saco = ImageGrab.grab(bbox=saco_bbox)
     saco.save('saco.jpg', 'jpeg')
 
     try:
@@ -23,8 +23,8 @@ def get_kg_max():
     except:
         return 100.0
 
-def atualizar():
-    saco = ImageGrab.grab(bbox=(115,175,254,202))
+def atualizar(saco_bbox):
+    saco = ImageGrab.grab(bbox=saco_bbox)
     saco.save('saco.jpg', 'jpeg')
 
     try:

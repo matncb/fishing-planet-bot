@@ -6,8 +6,8 @@ import pytesseract
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-def atualizar():
-    l = ImageGrab.grab(bbox=(2141,917,2300,1014))
+def atualizar(line_bbox):
+    l = ImageGrab.grab(bbox=line_bbox)
 
     half = 3
     out = l.resize([int(half * s) for s in l.size])

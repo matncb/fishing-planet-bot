@@ -5,14 +5,14 @@ import time
 mouse = Controller()
 
 
-def trocar():
+def trocar(next_morning_button, extend_button):
     pyautogui.press('t')
     time.sleep(0.2)
-    mouse.position = (1283, 869)
+    mouse.position = next_morning_button
     time.sleep(0.2)
     mouse.click(Button.left)
     time.sleep(0.2)
-    mouse.position = (1095, 677)
+    mouse.position = extend_button
     time.sleep(0.2)
     mouse.click(Button.left)
     time.sleep(0.5)
