@@ -14,8 +14,7 @@ def config(n):
         time.sleep(0.1)
     
 
-def twiching(button):
-    mouse.position = button
+def twiching():
     mouse.press(Button.left)
     time.sleep(0.5)
     mouse.press(Button.right)

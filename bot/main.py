@@ -24,7 +24,6 @@ from states import trocar
 #######
 
 #positions
-keep_button = (1444, 925)
 next_morning_button = (1283, 869)
 extend_button = (1095, 677)
 saco_bbox = (115,175,254,202)
@@ -76,18 +75,16 @@ class State(Thread):
     def __init__(self):
         super().__init__()
         #self.state = 'arremessar'
-        self.arremessou = False
     def run(self):
         while True:
             if saco.kg_atual < kg_max:
                 if line.n_linha == 0:
                     #self.state = 'arremessar'
-                    arremessar.arremessar(casting_time, keep_button)
-                    self.arremessou = True
+                    arremessar.arremessar(casting_time)
+                    time.sleep(0)
                 else:
                     #self.state = 'pescar'
-                    pescar.twiching(keep_button)
-                    self.arremesou = False
+                    pescar.twiching()
             else:
                 trocar.trocar(next_morning_button, extend_button)
 
