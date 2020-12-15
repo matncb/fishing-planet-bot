@@ -1,35 +1,21 @@
 import pyscreenshot as ImageGrab
 from PIL import Image
-import pytesseract
-from pynput.mouse import Button, Controller
 import time
-import pyautogui
-from pynput.keyboard import Key, Listener
-import logging
-import threading
 
-mouse = Controller()
+def atualizar(fisgar_pos):
+    fisgou = ImageGrab.grab()
+    fisgou.save('fisgou.jpg', 'jpeg')
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    im = Image.open('fisgou.jpg')
+    pix = im.load()
 
-from data import kg
-from data import fisgou
-from data import linha
-#######
+    x, y = fisgar_pos
 
-#vars
+    a, b, c = pix[x, y]
 
-global state #pescar, recolher, arremessar, trocar dia
-global kg_atual
-global kg_max
-global fisgou
-global linha
-
-#dados
-
-
-
-
-
+    if (a>=180) and (a<=210) and (b >=180) and (b<=210) and (c>=180) and (c<=210):
+        return True
+    else:
+        return False
 
 

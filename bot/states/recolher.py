@@ -5,9 +5,14 @@ import time
 mouse = Controller()
 
 def peixe():
-    mouse.press(Button.Left)
-    time.sleep(1)
-    mouse.release(Button.Left)
+    mouse.press(Button.left)
+    time.sleep(0.5)
+    mouse.press(Button.right)
+    time.sleep(0.5)
+    mouse.release(Button.right)
+    time.sleep(0.25)
+    mouse.release(Button.left)
+    
 
 
 

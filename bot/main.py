@@ -28,6 +28,7 @@ next_morning_button = (1283, 869)
 extend_button = (1095, 677)
 saco_bbox = (115,175,254,202)
 line_bbox = (2141,917,2300,1014)
+fisgar_pos = (2411, 953)
 
 #config vars
 casting_time = 2
@@ -66,6 +67,17 @@ class Linha(Thread):
 line = Linha()
 line.start()
 
+class Fisgar(Thread):
+    def __init__(self):
+        super().__init__()
+        self.fisgou = False
+    def run(self):
+        while True:
+            self.fisgou = fisgou.atualizar(fisgar_pos)
+
+fisgar = Fisgar()
+fisgar.start()
+
 ####
 
 time.sleep(2)
@@ -74,20 +86,19 @@ pescar.config(velocidade_recolhimento)
 class State(Thread):
     def __init__(self):
         super().__init__()
-        #self.state = 'arremessar'
     def run(self):
         while True:
             if saco.kg_atual < kg_max:
                 if line.n_linha == 0:
-                    #self.state = 'arremessar'
                     arremessar.arremessar(casting_time)
-                    time.sleep(0)
+                elif fisgar.fisgou:
+                    recolher.peixe()
                 else:
-                    #self.state = 'pescar'
-                    pescar.twiching()
+                    #pescar.twiching()
+                    pescar.stopgo()
             else:
                 trocar.trocar(next_morning_button, extend_button)
-
+                
 state = State()
 time.sleep(1)
 state.start()

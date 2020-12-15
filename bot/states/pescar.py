@@ -23,7 +23,12 @@ def twiching():
     time.sleep(0.25)
     mouse.release(Button.right)
     time.sleep(0.2)
-    
+
+def stopgo():
+    mouse.press(Button.left)
+    time.sleep(2)
+    mouse.release(Button.left)
+    time.sleep(0.7)
     
 
 
