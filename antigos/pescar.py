@@ -29,28 +29,34 @@ def iniciar(tipo):
     mouse.position = (1444, 925)
     time.sleep(3)
 
+    print('Entrou no loop....')
     #i = 0 
     #while i < 10:  
-    while True:  
-      if ( tipo == '1'):     
-          #print('Modo de pesca: twiching') 
-          twiching()
-      elif ( tipo == '2'):  
-          #print('Modo de pesca: stopgo') 
-          stopgo() 
-      else:
-         #print('Modo de pesca não existe !!!') 
-         twiching()
-         stopgo() 
-         #i = 10
-         #break
-      #i = i + 1
+    try:
+        while True:  
+            if ( tipo == '1'):     
+                #print('Modo de pesca: twiching') 
+                twiching()
+            elif ( tipo == '2'):  
+                #print('Modo de pesca: stopgo') 
+                stopgo() 
+            else:
+                #print('Modo de pesca não existe !!!') 
+                twiching()
+                stopgo() 
+                #i = 10
+            #break
+            #i = i + 1
+    except KeyboardInterrupt:
+        print("Programa foi interrompido.")
+        pass
 
 def main(argv):    
    if ( len(sys.argv) == 2 ):
      iniciar(argv[0])
      end = time.strftime("%d.%m.%Y-%H:%M:%S")
      print('Finalizar pesca....', end) 
+     sys.exit()
    else:
      print('pescar.py  <tipo da pesca> ') 
      print(' Tipo da pesca: 1 - twiching , 2 - Stopgo ') 
