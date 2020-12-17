@@ -26,7 +26,7 @@ def iniciar(tipo):
     start = time.strftime("%d.%m.%Y-%H:%M:%S")
     print('Iniciar pesca....', start )
     time.sleep(2)
-    mouse.position = (1444, 925)
+    #mouse.position = (1444, 925)
     time.sleep(3)
 
     print('Entrou no loop....')
@@ -47,6 +47,12 @@ def iniciar(tipo):
                 #i = 10
             #break
             #i = i + 1
+
+            #Nao funcionou no windows e prejudicou o trabalho do twiching
+            #time.sleep(0.1)
+            #pyautogui.press('space')
+            #time.sleep(1)
+ 
     except KeyboardInterrupt:
         print("Programa foi interrompido.")
         pass
