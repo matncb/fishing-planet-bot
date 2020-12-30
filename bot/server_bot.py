@@ -1,9 +1,9 @@
 import flask
 from flask import request, jsonify
 
-from ../data import kg
-from ../data import fisgou
-from ../data import linha
+from data import kg
+from data import fisgou
+from data import linha
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
