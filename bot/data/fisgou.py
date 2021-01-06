@@ -3,19 +3,24 @@ from PIL import Image
 import time
 
 def atualizar(fisgar_pos):
-    fisgou = ImageGrab.grab()
-    fisgou.save('fisgou.jpg', 'jpeg')
 
-    im = Image.open('fisgou.jpg')
-    pix = im.load()
+    try:
+        fisgou = ImageGrab.grab()
+        fisgou.save('fisgou.jpg', 'jpeg')
 
-    x, y = fisgar_pos
+        im = Image.open('fisgou.jpg')
+        pix = im.load()
 
-    a, b, c = pix[x, y]
+        x, y = fisgar_pos
 
-    if (a>=180) and (a<=210) and (b >=180) and (b<=210) and (c>=180) and (c<=210):
-        return True
-    else:
-        return False
+        a, b, c = pix[x, y]
+
+        if (a>=180) and (a<=210) and (b >=180) and (b<=210) and (c>=180) and (c<=210):
+            return True
+        else:
+            return False
+    except:
+        pass
+           
 
 

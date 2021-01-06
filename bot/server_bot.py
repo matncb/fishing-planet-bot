@@ -112,16 +112,17 @@ def iniciar():
         saco.start()
         line.start()
         fisgar.start()
+        app.run(threaded=True)        
     except KeyboardInterrupt:
         end = time.strftime("%d.%m.%Y-%H:%M:%S")
         print('Finalizar pesca....', end) 
         pass        
-    app.run(threaded=True)        
+    
 
 
-if __name__ == '__main__':
-    configure = Config()
-    saco = Saco(configure)
-    line = Line(configure)
-    fisgar = Fisgar(configure)
-    iniciar()    
+
+configure = Config()
+saco = Saco(configure)
+line = Line(configure)
+fisgar = Fisgar(configure)
+iniciar()    
