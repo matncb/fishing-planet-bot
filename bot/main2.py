@@ -22,7 +22,6 @@ from states import trocar
 
 
 ##### Definicao das classes #####
-
 class Config:
    def __init__(self):
         #positions
