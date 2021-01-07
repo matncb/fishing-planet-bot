@@ -20,8 +20,13 @@ class Config:
         #positions
         self.next_morning_button = (1283, 869)
         self.extend_button = (1095, 677)
-        self.saco_bbox = (115,175,254,202)
-        self.line_bbox = (2141,917,2300,1014)
+
+        #self.saco_bbox = (115,175,254,202)
+        self.saco_bbox = (2142,268,2282,299)
+
+        #self.line_bbox = (2141,917,2300,1014)
+        self.line_bbox = (3910,1206,3993,1299)
+
         self.fisgar_pos = (2411, 953)
 
         #config vars
@@ -34,35 +39,38 @@ class Config:
    def toJSON(self):
        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
-class Saco(Thread):
+#class Saco(Thread):
+class Saco():    
     def __init__(self, config):
         super().__init__()
         self.kg_atual = 0.0
         self.config = config
     def run(self):
-        logging.warning("Start saco!!!")
-        while True:
-          time.sleep(1)
-          kg_ = kg.atualizar(self.config.saco_bbox)
-          if kg_ != None:
-            self.kg_atual = kg_
+        #logging.warning("Start saco!!!")
+        #while True:
+        kg_ = kg.atualizar(self.config.saco_bbox)
+        if kg_ != None:
+          self.kg_atual = kg_
 
     def toJSON(self):
        return { "kg_atual": self.kg_atual }
 
 
-class Line(Thread):
+#class Line(Thread):
+class Line():
     def __init__(self,config):
         super().__init__()
         self.n_line = 0
         self.config = config
+
     def run(self):
-       logging.warning("Start linha!!!")
-       while True:
-          time.sleep(1)
-          line_ = linha.atualizar(self.config.line_bbox)
-          if line_ != None:
-              self.n_line = line_       
+       #logging.warning("Start linha!!!")
+       #while True:
+       line_ = linha.atualizar(self.config.line_bbox)
+       
+       if line_ != None:
+            self.n_line = line_       
+
     def toJSON(self):
        return { "n_line": self.n_line }
 
@@ -90,12 +98,16 @@ def getConfig():
 # route Config
 @app.route('/saco', methods=['GET'])
 def getSaco():
+    saco = Saco(configure)
+    saco.run()
     return jsonify(saco.toJSON())   
     
 
 # route Config
 @app.route('/linha', methods=['GET'])
 def getLinha():
+    line = Line(configure)
+    line.run()
     return jsonify(line.toJSON())   
 
 # route Config
@@ -108,14 +120,9 @@ def iniciar():
    #print('Iniciar pesca....', start )
    logging.warning('Iniciar pesca....')
    try:
-
-        configure = Config()
-        saco = Saco(configure)
-        saco.start()
-        line = Line(configure)
-        line.start()
-        fisgar = Fisgar(configure)
-        fisgar.start()
+        #saco.start()
+        #line.start()
+        #fisgar.start()
         #app.run(threaded=True)        
         app.run()        
         
@@ -127,7 +134,7 @@ def iniciar():
         
 
 configure = Config()
-saco = Saco(configure)
-line = Line(configure)
-fisgar = Fisgar(configure)
+#saco = Saco(configure)
+#line = Line(configure)
+#fisgar = Fisgar(configure)
 iniciar()    
