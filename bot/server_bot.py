@@ -1,19 +1,14 @@
-import flask
+import flask 
 from flask import request, jsonify
+import logging
 import json
-import pyscreenshot as ImageGrab
-from PIL import Image
-import pytesseract
-from pynput.mouse import Button, Controller
 import time
-import pyautogui
 from pynput.keyboard import Key, Listener
 from threading import Thread
 
 from data import kg
 from data import fisgou
 from data import linha
-
 
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
@@ -34,6 +29,8 @@ class Config:
         self.velocidade_recolhimento = 2
         self.kg_max = 100.0
 
+        logging.warning("Init Config !!!")
+
    def toJSON(self):
        return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
@@ -43,8 +40,9 @@ class Saco(Thread):
         self.kg_atual = 0.0
         self.config = config
     def run(self):
-        print('Start saco!!!' )
+        logging.warning("Start saco!!!")
         while True:
+          time.sleep(1)
           kg_ = kg.atualizar(self.config.saco_bbox)
           if kg_ != None:
             self.kg_atual = kg_
@@ -59,8 +57,9 @@ class Line(Thread):
         self.n_line = 0
         self.config = config
     def run(self):
-        print('Start linha!!!' )
-        while True:
+       logging.warning("Start linha!!!")
+       while True:
+          time.sleep(1)
           line_ = linha.atualizar(self.config.line_bbox)
           if line_ != None:
               self.n_line = line_       
@@ -73,8 +72,9 @@ class Fisgar(Thread):
         self.fisgou = False
         self.config = config
     def run(self):
-        print('Start fisgar!!!' )
+        logging.warning("Start fisgar!!!")
         while True:
+          time.sleep(.2)  
           self.fisgou = fisgou.atualizar(self.config.fisgar_pos)
     def toJSON(self):
        return { "fisgou": self.fisgou }
@@ -103,23 +103,28 @@ def getLinha():
 def getFisga():
     return jsonify(fisgar.toJSON())   
 
-
-
 def iniciar():    
-    start = time.strftime("%d.%m.%Y-%H:%M:%S")
-    print('Iniciar pesca....', start )
-    try:
+   #start = time.strftime("%d.%m.%Y-%H:%M:%S")
+   #print('Iniciar pesca....', start )
+   logging.warning('Iniciar pesca....')
+   try:
+
+        configure = Config()
+        saco = Saco(configure)
         saco.start()
+        line = Line(configure)
         line.start()
+        fisgar = Fisgar(configure)
         fisgar.start()
-        app.run(threaded=True)        
-    except KeyboardInterrupt:
-        end = time.strftime("%d.%m.%Y-%H:%M:%S")
-        print('Finalizar pesca....', end) 
+        #app.run(threaded=True)        
+        app.run()        
+        
+   except KeyboardInterrupt:
+        #end = time.strftime("%d.%m.%Y-%H:%M:%S")
+        #print('Finalizar pesca....', end) 
+        logging.warning('Finalizar pesca....' )
         pass        
-    
-
-
+        
 
 configure = Config()
 saco = Saco(configure)

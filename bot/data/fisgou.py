@@ -6,10 +6,11 @@ def atualizar(fisgar_pos):
 
     try:
         fisgou = ImageGrab.grab()
-        fisgou.save('fisgou.jpg', 'jpeg')
+        #fisgou.save('fisgou.jpg', 'jpeg')
+        #im = Image.open('fisgou.jpg')
+        #pix = im.load()
 
-        im = Image.open('fisgou.jpg')
-        pix = im.load()
+        pix = fisgou
 
         x, y = fisgar_pos
 

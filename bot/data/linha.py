@@ -11,10 +11,11 @@ def atualizar(line_bbox):
 
     half = 3
     out = l.resize([int(half * s) for s in l.size])
-    out.save('linha.jpg', 'jpeg')
+    #out.save('linha.jpg', 'jpeg')
 
     try:
-        texto = pytesseract.image_to_string(Image.open('linha.jpg'), config='--psm 6')
+        #texto = pytesseract.image_to_string(Image.open('linha.jpg'), config='--psm 6')
+        texto = pytesseract.image_to_string(out, config='--psm 6')
         texto = int(texto)
         return texto
     except:

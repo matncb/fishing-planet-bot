@@ -9,10 +9,11 @@ kg = 0.0
 
 def get_kg_max(saco_bbox):
     saco = ImageGrab.grab(bbox=saco_bbox)
-    saco.save('saco.jpg', 'jpeg')
+    #saco.save('saco.jpg', 'jpeg')
 
     try:
-        texto = pytesseract.image_to_string(Image.open('saco.jpg'))
+        #texto = pytesseract.image_to_string(Image.open('saco.jpg'))
+        texto = pytesseract.image_to_string(saco)
 
         kg_atual, kg_max = texto.split('/')
 
@@ -25,10 +26,11 @@ def get_kg_max(saco_bbox):
 
 def atualizar(saco_bbox):
     saco = ImageGrab.grab(bbox=saco_bbox)
-    saco.save('saco.jpg', 'jpeg')
+    #saco.save('saco.jpg', 'jpeg')
 
     try:
-        texto = pytesseract.image_to_string(Image.open('saco.jpg'))
+        #texto = pytesseract.image_to_string(Image.open('saco.jpg'))
+        texto = pytesseract.image_to_string(saco)
 
         kg_atual, kg_max = texto.split('/')
         kg = float(kg_atual)
