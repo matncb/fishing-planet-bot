@@ -22,12 +22,14 @@ class Config:
         self.extend_button = (1095, 677)
 
         #self.saco_bbox = (115,175,254,202)
-        self.saco_bbox = (2142,268,2282,299)
+        self.saco_bbox = (2074,237,2261,274)
 
         #self.line_bbox = (2141,917,2300,1014)
-        self.line_bbox = (3910,1206,3993,1299)
+        #self.line_bbox = (3910,1206,3993,1299)
+        self.line_bbox = (3938,1230,4120,1353)
 
         self.fisgar_pos = (2411, 953)
+        #self.fisgar_pos = (4286, 1276)
 
         #config vars
         self.casting_time = 2
@@ -42,7 +44,7 @@ class Config:
 #class Saco(Thread):
 class Saco():    
     def __init__(self, config):
-        super().__init__()
+        #super().__init__()
         self.kg_atual = 0.0
         self.config = config
     def run(self):
@@ -59,7 +61,7 @@ class Saco():
 #class Line(Thread):
 class Line():
     def __init__(self,config):
-        super().__init__()
+        #super().__init__()
         self.n_line = 0
         self.config = config
 
@@ -74,16 +76,17 @@ class Line():
     def toJSON(self):
        return { "n_line": self.n_line }
 
-class Fisgar(Thread):
+#class Fisgar(Thread):
+class Fisgar():
     def __init__(self, config):
         super().__init__()
         self.fisgou = False
         self.config = config
     def run(self):
         logging.warning("Start fisgar!!!")
-        while True:
-          time.sleep(.2)  
-          self.fisgou = fisgou.atualizar(self.config.fisgar_pos)
+        #while True:
+        self.fisgou = fisgou.atualizar(self.config.fisgar_pos)
+
     def toJSON(self):
        return { "fisgou": self.fisgou }
 
@@ -113,6 +116,8 @@ def getLinha():
 # route Config
 @app.route('/fisga', methods=['GET'])
 def getFisga():
+    fisgar = Fisgar(configure)
+    fisgar.run()
     return jsonify(fisgar.toJSON())   
 
 def iniciar():    

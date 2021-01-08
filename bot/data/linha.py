@@ -8,9 +8,10 @@ import time
 def atualizar(line_bbox):
     l = ImageGrab.grab(bbox=line_bbox)
 
-    half = 3
+    
+    half = 1
     out = l.resize([int(half * s) for s in l.size])
-    out.save('linha.jpg', 'jpeg')
+    #out.save('linha.jpg', 'jpeg')
 
     try:
         #texto = pytesseract.image_to_string(Image.open('linha.jpg'), config='--psm 6')

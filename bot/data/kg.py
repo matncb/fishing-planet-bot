@@ -33,8 +33,6 @@ def atualizar(saco_bbox):
     out = saco.resize([int(half * s) for s in saco.size])
     #out.save('saco.jpg', 'jpeg')
 
-
-
     try:
 
         #texto = pytesseract.image_to_string(Image.open('/home/denilso/desenv/fishing-planet/fishing-planet-bot/bot/saco.jpg'))
