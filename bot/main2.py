@@ -24,17 +24,19 @@ from states import trocar
 ##### Definicao das classes #####
 class Config:
    def __init__(self):
+
         #positions
         self.next_morning_button = (1283, 869)
         self.extend_button = (1095, 677)
-        self.saco_bbox = (115,175,254,202)
-        self.line_bbox = (2141,917,2300,1014)
-        self.fisgar_pos = (2411, 953)
+        self.saco_bbox = (2074,237,2261,274)
+        self.line_bbox = (3938,1230,4120,1353)
+        self.fisgar_pos = (4273, 1274, 4291, 1280)
 
         #config vars
         self.casting_time = 2
         self.velocidade_recolhimento = 2
         self.kg_max = 100.0
+
 
 class Saco(Thread):
     def __init__(self, config):

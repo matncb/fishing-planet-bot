@@ -9,7 +9,7 @@ def atualizar(line_bbox):
     l = ImageGrab.grab(bbox=line_bbox)
 
     
-    half = 1
+    half = 3
     out = l.resize([int(half * s) for s in l.size])
     #out.save('linha.jpg', 'jpeg')
 
@@ -21,7 +21,8 @@ def atualizar(line_bbox):
         return texto
     except:
         print("error-linha")
-        pass
+        return 10
+        #pass
     
 
 

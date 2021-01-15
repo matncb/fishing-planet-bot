@@ -125,7 +125,7 @@ def getFisga():
 def iniciar():    
    #start = time.strftime("%d.%m.%Y-%H:%M:%S")
    #print('Iniciar pesca....', start )
-   logging.warning('Iniciar pesca....')
+   logging.warning('Server: Iniciar pesca....')
    try:
         #saco.start()
         #line.start()
@@ -136,7 +136,7 @@ def iniciar():
    except KeyboardInterrupt:
         #end = time.strftime("%d.%m.%Y-%H:%M:%S")
         #print('Finalizar pesca....', end) 
-        logging.warning('Finalizar pesca....' )
+        logging.warning('Server: Finalizar pesca....' )
         pass        
         
 

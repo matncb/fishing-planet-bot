@@ -9,17 +9,20 @@ from states import trocar
 def main():    
  
     try:
+
        start = time.strftime("%d.%m.%Y-%H:%M:%S")
-       print('Cliente: Iniciar pesca....', start )
+       print('Robo: Iniciar pesca....', start )
+       time.sleep(3)
+       
        config = requests.get('http://localhost:5000/config').json()
        pescar.config(config["velocidade_recolhimento"])
 
+       
        while True:
-            saco = requests.get('http://localhost:5000/saco').json()
-            line = requests.get('http://localhost:5000/linha').json()
-            fisgar = requests.get('http://localhost:5000/fisga').json()
-
-            if saco["kg_atual"] < config['kg_max']:
+           saco = requests.get('http://localhost:5000/saco').json()
+           line = requests.get('http://localhost:5000/linha').json()
+           fisgar = requests.get('http://localhost:5000/fisga').json()
+           if saco["kg_atual"] < config['kg_max']:
                 if line["n_line"]== 0:
                     arremessar.arremessar(config["casting_time"])
                 elif fisgar["fisgou"]:
@@ -27,9 +30,9 @@ def main():
                 else:
                     pescar.twiching()
                     #pescar.stopgo()
-            else:
+           else:
                 trocar.trocar(config["next_morning_button"], config["extend_button"])
-
+           
     except KeyboardInterrupt:
         end = time.strftime("%d.%m.%Y-%H:%M:%S")
         print('Robo: Finalizar pesca....', end) 

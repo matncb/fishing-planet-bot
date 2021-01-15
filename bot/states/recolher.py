@@ -5,7 +5,7 @@ import time
 mouse = Controller()
 
 def peixe():
-    print("Recolher...")
+    
     mouse.press(Button.left)
     time.sleep(0.5)
     mouse.press(Button.right)
