@@ -4,6 +4,7 @@ import time
 import pyautogui
 
 def arremessar(t):
+    print("Arremessar...")
     time.sleep(0.2)
     mouse.press(Button.left)
     time.sleep(t)

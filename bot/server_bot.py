@@ -28,8 +28,10 @@ class Config:
         #self.line_bbox = (3910,1206,3993,1299)
         self.line_bbox = (3938,1230,4120,1353)
 
-        self.fisgar_pos = (2411, 953)
+        #self.fisgar_pos = (2411, 953)
         #self.fisgar_pos = (4286, 1276)
+
+        self.fisgar_pos = (4273, 1274, 4291, 1280)
 
         #config vars
         self.casting_time = 2
