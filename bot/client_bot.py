@@ -1,10 +1,25 @@
 import requests
 import time
+from threading import Thread
 
 from states import pescar
 from states import recolher
 from states import arremessar
 from states import trocar
+
+class Status(Thread):
+    def __init__(self):
+        super().__init__()
+        self.saco = { "kg_atual": 0.0 }
+        self.line = { "n_line": 0 }
+        self.fisgar = { "fisgou": False }
+
+    def run(self):
+       while True: 
+          self.saco = requests.get('http://localhost:5000/saco').json()
+          self.line = requests.get('http://localhost:5000/linha').json()
+          self.fisgar = requests.get('http://localhost:5000/fisga').json()
+        
 
 def main():    
  
@@ -17,16 +32,16 @@ def main():
        config = requests.get('http://localhost:5000/config').json()
        pescar.config(config["velocidade_recolhimento"])
 
+       status = Status()
+       status.start()
        
        while True:
-           saco = requests.get('http://localhost:5000/saco').json()
-           line = requests.get('http://localhost:5000/linha').json()
-           fisgar = requests.get('http://localhost:5000/fisga').json()
-           if saco["kg_atual"] < config['kg_max']:
-                if line["n_line"]== 0:
+ 
+           if status.saco["kg_atual"] < config['kg_max']:
+                if status.line["n_line"] == 0:
                     arremessar.arremessar(config["casting_time"])
-                elif fisgar["fisgou"]:
-                    recolher.peixe()
+                elif status.fisgar["fisgou"]:
+                   recolher.peixe()
                 else:
                     pescar.twiching()
                     #pescar.stopgo()
