@@ -1,27 +1,31 @@
 import requests
 import time
-from threading import Thread
+import asyncio
+import json
+from pynput.mouse import Button, Controller
 
 from states import pescar
 from states import recolher
 from states import arremessar
 from states import trocar
 
-class Status(Thread):
-    def __init__(self):
-        super().__init__()
-        self.saco = { "kg_atual": 0.0 }
-        self.line = { "n_line": 0 }
-        self.fisgar = { "fisgou": False }
+saco = {}
+line = {}
+fisgar = {}
 
-    def run(self):
-       while True: 
-          self.saco = requests.get('http://localhost:5000/saco').json()
-          self.line = requests.get('http://localhost:5000/linha').json()
-          self.fisgar = requests.get('http://localhost:5000/fisga').json()
-        
+def get_saco():
+    global saco
+    saco = requests.get('http://localhost:5000/saco').json()
 
-def main():    
+def get_line():
+    global line
+    line = requests.get('http://localhost:5000/linha').json()
+
+def get_fisgar():
+    global fisgar
+    fisgar = requests.get('http://localhost:5000/fisga').json()
+
+async def main(loop):    
  
     try:
 
@@ -30,27 +34,42 @@ def main():
        time.sleep(3)
        
        config = requests.get('http://localhost:5000/config').json()
+       get_saco()
+       get_line()
+       get_fisgar()
        pescar.config(config["velocidade_recolhimento"])
 
-       status = Status()
-       status.start()
-       
        while True:
- 
-           if status.saco["kg_atual"] < config['kg_max']:
-                if status.line["n_line"] == 0:
-                    arremessar.arremessar(config["casting_time"])
-                elif status.fisgar["fisgou"]:
-                   recolher.peixe()
-                else:
-                    pescar.twiching()
-                    #pescar.stopgo()
+
+           loop.run_in_executor(None, get_saco)
+           loop.run_in_executor(None, get_line)
+           loop.run_in_executor(None, get_fisgar)
+
+           if saco["kg_atual"] < config['kg_max']:
+               if line["n_line"] == 0:
+                  #print("Arremessar")
+                  arremessar.arremessar(config["casting_time"])
+               elif fisgar["fisgou"]:
+                  #print("Recolher")
+                  recolher.peixe()
+               else:
+                  #print("Pescar")
+                  pescar.twiching()
+                  #pescar.stopgo()
            else:
-                trocar.trocar(config["next_morning_button"], config["extend_button"])
+              #print("Trocar")
+              trocar.trocar(config["next_morning_button"], config["extend_button"])
            
     except KeyboardInterrupt:
+
+        mouse = Controller()
+        mouse.release(Button.left)
+        mouse.release(Button.right)
+
         end = time.strftime("%d.%m.%Y-%H:%M:%S")
         print('Robo: Finalizar pesca....', end) 
         pass
 
-main()
+if __name__ == '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main(loop))

@@ -5,7 +5,7 @@ import time
 mouse = Controller()
 
 
-def trocar(next_morning_button, extend_button):
+async def trocar(next_morning_button, extend_button):
     print("Trocar...")
     pyautogui.press('t')
     time.sleep(0.2)

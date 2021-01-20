@@ -14,7 +14,7 @@ def config(n):
         time.sleep(0.1)
     
 
-def twiching():
+async def twiching():
     print("Pescar(twiching)...")
     mouse.press(Button.left)
     time.sleep(0.5)
@@ -33,6 +33,8 @@ def stopgo():
     mouse.release(Button.left)
     time.sleep(0.7)
     
+
+
 
 
 
