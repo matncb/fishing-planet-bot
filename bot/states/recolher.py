@@ -4,7 +4,7 @@ import time
 
 mouse = Controller()
 
-async def peixe():
+def peixe():
     print("Recolher...")
     mouse.press(Button.left)
     time.sleep(0.5)
