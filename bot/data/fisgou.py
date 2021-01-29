@@ -13,7 +13,7 @@ def atualizar(fisgar_pos):
         else:
             return False
     except:
-        print("erro-fisgou")
+        #print("erro-fisgou")
         pass
            
 

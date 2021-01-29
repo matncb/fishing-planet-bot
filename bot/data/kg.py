@@ -46,7 +46,7 @@ def atualizar(saco_bbox):
         return kg
     
     except:
-        print("error-kg")
+        #print("error-kg")
         pass
 
 

@@ -16,14 +16,17 @@ fisgar = {}
 def get_saco():
     global saco
     saco = requests.get('http://localhost:5000/saco').json()
+    time.sleep(0.5)
 
 def get_line():
     global line
     line = requests.get('http://localhost:5000/linha').json()
+    time.sleep(0.5)
 
 def get_fisgar():
     global fisgar
     fisgar = requests.get('http://localhost:5000/fisga').json()
+    time.sleep(0.5)
 
 async def main(loop):    
  
