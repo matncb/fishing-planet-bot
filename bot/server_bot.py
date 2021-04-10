@@ -42,7 +42,7 @@ class Saco(Thread):
     def run(self):
         logging.warning("Start saco!!!")
         while True:
-          time.sleep(1)
+          #time.sleep(1)
           kg_ = kg.atualizar(self.config.saco_bbox)
           if kg_ != None:
             self.kg_atual = kg_
