@@ -8,6 +8,10 @@ mouse = Controller()
 
 def pescar():
     #mouse.position = (1444, 925)
+    #mouse.position = (1190, 994)
+    #mouse.position = (1312, 1018)
+    #mouse.position = (1299, 1010)
+    mouse.position = (1540, 1200)
     #mouse.click(Button.left)
     mouse.press(Button.left)
     time.sleep(1.9)
@@ -25,16 +29,13 @@ def pescar():
    
     
 def pegar():
-    mouse.position = (1444, 925)
+    mouse.position = (1540, 1200)
     mouse.click(Button.left)
     time.sleep(0.05)
     #mouse.position = (pos)
 
-time.sleep(2)
-mouse.position = (1444, 925)
-time.sleep(3)
-
 while True:  
+    mouse.position = (1444, 1200)
     pescar()
     #pegar()
     

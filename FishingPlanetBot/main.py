@@ -3,6 +3,7 @@ import pyautogui
 import time
 import keyboard
 import random
+import numpy as np
 import win32api, win32con
 from pynput.mouse import Button, Controller
 mouse = Controller()
@@ -31,7 +32,8 @@ print("[STATUS] Starting...")
 
 #vars
 FULL_CASTING_TIME = 1.9
-FULL_CASTING_LENGTH = 81
+#FULL_CASTING_LENGTH = 81
+FULL_CASTING_LENGTH = 65
 
 if CAST_LENGTH  == 0:
     CAST_LENGTH = FULL_CASTING_LENGTH
@@ -64,13 +66,18 @@ def reel():
 def hooked():
     #width, height = pic.size
     #pyautogui.displayMousePosition
-    
-    pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+
+    #1610, 793, 1654, 800
+    #pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
     r,g,b = pic.getpixel((20, 3))
 
     if b in range(185,200):
+        print("Fisgou !!!")
         return True
+        
     else:
+        #print("Não fisgou !!!")
         return False
 
 def keep_fish():
@@ -110,9 +117,37 @@ def next_day():
     time.sleep(0.5)
     extend_day()
 
+def stopgo():
+    mouse.press(Button.left)
+    time.sleep(2)
+    mouse.release(Button.left)
+    time.sleep(0.7) 
+
+def twiching():
+    mouse.press(Button.left)
+    time.sleep(2)
+    mouse.release(Button.left)
+    mouse.click(Button.left)
+    time.sleep(0.05)
+    mouse.press(Button.right)
+    time.sleep(0.7)
+    mouse.release(Button.right)
+    time.sleep(0.05)
+
+def is_zero():
+    img = pyautogui.screenshot()
+    data = np.array(img)
+    bounds=(1540, 955, 1545, 979) #left top right bot
+    offset_x= 31     # 1771 - 1740
+    segment=data[bounds[1]:bounds[3], bounds[0]:bounds[2]]
+    if (segment== (247, 247, 247)).all():
+        return True
+    else:
+        return False    
 
 time.sleep(2)
-if style == 1:
+if (style == 1):
+    print("Style--->1:Bottom...")
     while True:
         time.sleep(1)
         cast(CASTING_TIME)
@@ -143,6 +178,52 @@ if style == 1:
             else:
                 next_day()
         
+    
+elif (style == 0): #artificial
+    print("Style---> 2:Artificial...")
+    time.sleep(1)
+    cast(CASTING_TIME)
+    time.sleep(5)
+
+    while True:
+        stopgo()
+        if is_zero():
+            print("is_zero......")
+            time.sleep(1)
+            cast(CASTING_TIME)
+            time.sleep(5) 
+          
+        #twiching()
+        if hooked() == True:
+            while is_zero() == False:
+                reel()
+                if keyboard.is_pressed('q') == True:
+                    break
+            time.sleep(2)
+            if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
+                keep_fish()
+                time.sleep(1)
+
+            if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+                extend_day()
+
+            time.sleep(1)
+            cast(CASTING_TIME)
+            time.sleep(3)
+        
+    
+        # else:
+           # release_fish()
+           # time.sleep(1)
+
+           # if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+           #     extend_day()
+           # else:
+           #     next_day()
+
+           # time.sleep(1)
+           # cast(CASTING_TIME)
+           # time.sleep(3)
     
 else:
     pass

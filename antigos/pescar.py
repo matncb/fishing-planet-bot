@@ -6,6 +6,7 @@ from pynput.keyboard import Key, Listener
 mouse = Controller()
 
 def twiching():
+    mouse.position = (1540, 1200)
     mouse.press(Button.left)
     time.sleep(2)
     mouse.release(Button.left)
@@ -17,6 +18,8 @@ def twiching():
     time.sleep(0.05)
 
 def stopgo():
+    #mouse.position = (1190, 994)
+    mouse.position = (1540, 1200)
     mouse.press(Button.left)
     time.sleep(2)
     mouse.release(Button.left)
