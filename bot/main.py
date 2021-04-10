@@ -24,16 +24,29 @@ from states import trocar
 #######
 
 #positions
+#next_morning_button = (1283, 869)
+#extend_button = (1095, 677)
+#saco_bbox = (115,175,254,202)
+#line_bbox = (2141,917,2300,1014)
+#fisgar_pos = (2411, 953)
+
+#config vars
+#casting_time = 2
+#velocidade_recolhimento = 2
+#kg_max = 100.0
+
 next_morning_button = (1283, 869)
 extend_button = (1095, 677)
-saco_bbox = (115,175,254,202)
-line_bbox = (2141,917,2300,1014)
-fisgar_pos = (2411, 953)
+saco_bbox = (2074,237,2261,274)
+line_bbox = (3938,1230,4120,1353)
+fisgar_pos = (4273, 1274, 4291, 1280)
 
 #config vars
 casting_time = 2
 velocidade_recolhimento = 2
 kg_max = 100.0
+
+
 
 #dados
 

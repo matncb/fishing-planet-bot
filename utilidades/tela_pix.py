@@ -5,24 +5,29 @@ import time
 pos1 = 2275
 pos2 = 720
 
-time.sleep(2)
+#time.sleep(2)
 
-img = ImageGrab.grab()
-img.save('img.png', 'png')
-im = Image.open('img.png')
+#img = ImageGrab.grab()
+#img.save('img.png', 'png')
+#im = Image.open('img.png')
+im = Image.open('fisgou.jpg')
+
 pix = im.load()
 
-base = pix[pos1, pos2]
+print("Pix-->")
+print(pix[1,3])
+
+#base = pix[pos1, pos2]
 
 
-while True:
-    img= ImageGrab.grab()
-    img.save('img.png', 'png')
-    im = Image.open('img.png')
-    pix = im.load()
+#while True:
+#    img= ImageGrab.grab()
+#    img.save('img.png', 'png')
+#    im = Image.open('img.png')
+#    pix = im.load()
 
-    if pix[pos1, pos2] != base:
-        print(pix[pos1, pos2])
+#    if pix[pos1, pos2] != base:
+#        print(pix[pos1, pos2])
 
     
 

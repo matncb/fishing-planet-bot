@@ -5,22 +5,15 @@ import time
 def atualizar(fisgar_pos):
 
     try:
-        fisgou = ImageGrab.grab()
-        #fisgou.save('fisgou.jpg', 'jpeg')
-        #im = Image.open('fisgou.jpg')
-        #pix = im.load()
-
+        fisgou = ImageGrab.grab(bbox=fisgar_pos).load()
         pix = fisgou
-
-        x, y = fisgar_pos
-
-        a, b, c = pix[x, y]
-
-        if (a>=180) and (a<=210) and (b >=180) and (b<=210) and (c>=180) and (c<=210):
+        a, b, c = pix[1, 3]
+        if (a>=177) and (a<=210) and (b >=180) and (b<=210) and (c>=180) and (c<=210):
             return True
         else:
             return False
     except:
+        #print("erro-fisgou")
         pass
            
 

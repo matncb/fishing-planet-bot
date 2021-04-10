@@ -15,6 +15,7 @@ def config(n):
     
 
 def twiching():
+    print("Pescar(twiching)...")
     mouse.press(Button.left)
     time.sleep(0.5)
     mouse.press(Button.right)
@@ -23,13 +24,17 @@ def twiching():
     time.sleep(0.25)
     mouse.release(Button.right)
     time.sleep(0.2)
+   
 
 def stopgo():
+    print("Pescar(stopgo)...")
     mouse.press(Button.left)
     time.sleep(2)
     mouse.release(Button.left)
     time.sleep(0.7)
     
+
+
 
 
 
