@@ -29,10 +29,11 @@ CAST_LENGTH = int(input("Enter the CAST_LENGTH: "))
 
 print("")
 print("[STATUS] Starting...")
+print("")
 
 #vars
 FULL_CASTING_TIME = 1.9
-FULL_CASTING_LENGTH = 65
+FULL_CASTING_LENGTH = 91
 
 if CAST_LENGTH  == 0:
     CAST_LENGTH = FULL_CASTING_LENGTH
@@ -72,7 +73,8 @@ def hooked():
     r,g,b = pic.getpixel((20, 3))
 
     if b in range(185,200):
-        print("[Status] Fisgou !!!")
+        print("[Status] Fish on !!!")
+        print("")
         return True
         
     else:
@@ -80,12 +82,16 @@ def hooked():
         return False
 
 def keep_fish():
+    '''
      mouse.position = (pyautogui.locateCenterOnScreen(keep_button_path, confidence=0.8))
      time.sleep(0.1)
      mouse.press(Button.left)
      time.sleep(0.2)
      mouse.release(Button.left)
      time.sleep(0.1)
+    '''
+    pyautogui.press('space')
+    time.sleep(0.5)
 
 def release_fish():
     mouse.position = (pyautogui.locateCenterOnScreen(release_button_path, confidence=0.8))
@@ -150,11 +156,14 @@ def is_zero():
 time.sleep(2)
 if (style == 1):
     print("Style--->1:Bottom/float...")
+    print("")
     while True:
-        time.sleep(1)
+        time.sleep(1.5)
         cast(CASTING_TIME)
         time.sleep(3)
         
+        print("[STATUS] Wainting...")
+        print("")
         while hooked() == False:
             if keyboard.is_pressed('q') == True:
                 break
@@ -163,7 +172,7 @@ if (style == 1):
                 break
             reel()
         
-        time.sleep(2)
+        time.sleep(4)
 
         if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
             keep_fish()
@@ -185,12 +194,13 @@ elif (style == 0): #artificial
     print("Style---> 2:Artificial...")
     time.sleep(1)
     cast(CASTING_TIME)
-    time.sleep(5)
+    time.sleep(4)
 
     while True:
         stopgo()
         if is_zero():
-            print("is_zero......")
+            print("[STATUS] Finished reeling.")
+            print("")
             time.sleep(1)
             cast(CASTING_TIME)
             time.sleep(5) 
@@ -201,7 +211,7 @@ elif (style == 0): #artificial
                 reel()
                 if keyboard.is_pressed('q') == True:
                     break
-            time.sleep(2)
+            time.sleep(4)
 
             if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
                 keep_fish()
@@ -218,7 +228,7 @@ elif (style == 0): #artificial
                 else:
                     next_day()
         
-            time.sleep(1)
+            time.sleep(1.5)
             cast(CASTING_TIME)
             time.sleep(3)
         
