@@ -32,7 +32,6 @@ print("[STATUS] Starting...")
 
 #vars
 FULL_CASTING_TIME = 1.9
-#FULL_CASTING_LENGTH = 81
 FULL_CASTING_LENGTH = 65
 
 if CAST_LENGTH  == 0:
@@ -67,13 +66,13 @@ def hooked():
     #width, height = pic.size
     #pyautogui.displayMousePosition
 
-    #1610, 793, 1654, 800
-    #pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
-    pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    #pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+
     r,g,b = pic.getpixel((20, 3))
 
     if b in range(185,200):
-        print("Fisgou !!!")
+        print("[Status] Fisgou !!!")
         return True
         
     else:
@@ -137,7 +136,9 @@ def twiching():
 def is_zero():
     img = pyautogui.screenshot()
     data = np.array(img)
-    bounds=(1540, 955, 1545, 979) #left top right bot
+    bounds=(2180, 955, 2185, 979)   #left top right bot
+    # (1540, 955, 1545, 979)
+                       
     offset_x= 31     # 1771 - 1740
     segment=data[bounds[1]:bounds[3], bounds[0]:bounds[2]]
     if (segment== (247, 247, 247)).all():
@@ -145,9 +146,10 @@ def is_zero():
     else:
         return False    
 
+
 time.sleep(2)
 if (style == 1):
-    print("Style--->1:Bottom...")
+    print("Style--->1:Bottom/float...")
     while True:
         time.sleep(1)
         cast(CASTING_TIME)
@@ -156,7 +158,7 @@ if (style == 1):
         while hooked() == False:
             if keyboard.is_pressed('q') == True:
                 break
-        while hooked() == True:
+        while is_zero == False:
             if keyboard.is_pressed('q') == True:
                 break
             reel()
@@ -200,13 +202,22 @@ elif (style == 0): #artificial
                 if keyboard.is_pressed('q') == True:
                     break
             time.sleep(2)
+
             if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
                 keep_fish()
                 time.sleep(1)
 
-            if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
-                extend_day()
+                if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+                    extend_day()
+            else:
+                release_fish()
+                time.sleep(1)
 
+                if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+                    extend_day()
+                else:
+                    next_day()
+        
             time.sleep(1)
             cast(CASTING_TIME)
             time.sleep(3)
@@ -225,6 +236,4 @@ elif (style == 0): #artificial
            # cast(CASTING_TIME)
            # time.sleep(3)
     
-else:
-    pass
 
