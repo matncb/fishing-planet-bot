@@ -33,7 +33,8 @@ print("")
 
 #vars
 FULL_CASTING_TIME = 1.9
-FULL_CASTING_LENGTH = 91
+FULL_CASTING_LENGTH = 45
+
 
 if CAST_LENGTH  == 0:
     CAST_LENGTH = FULL_CASTING_LENGTH
@@ -41,6 +42,7 @@ if CAST_LENGTH  == 0:
 CASTING_TIME = (CAST_LENGTH * (FULL_CASTING_TIME - 0.9))/FULL_CASTING_LENGTH + 0.9
 
 keep_button_path = 'keep_button.png'
+black_keep_button_path = 'black_keep_button.png'
 release_button_path = 'release_button.png'
 extend_button_path = 'extend_button.png'
 next_morning_button_path = 'next_morning_button.png'
@@ -67,8 +69,8 @@ def hooked():
     #width, height = pic.size
     #pyautogui.displayMousePosition
 
-    pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
-    #pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    #pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
 
     r,g,b = pic.getpixel((20, 3))
 
@@ -94,12 +96,16 @@ def keep_fish():
     time.sleep(0.5)
 
 def release_fish():
+    '''
     mouse.position = (pyautogui.locateCenterOnScreen(release_button_path, confidence=0.8))
     time.sleep(0.1)
     mouse.press(Button.left)
     time.sleep(0.2)
     mouse.release(Button.left)
     time.sleep(0.1)
+    '''
+    pyautogui.press('backspace')
+    time.sleep(0.5)
 
 def extend_day():
     mouse.position = (pyautogui.locateCenterOnScreen(extend_button_path, confidence=0.8))
@@ -142,7 +148,8 @@ def twiching():
 def is_zero():
     img = pyautogui.screenshot()
     data = np.array(img)
-    bounds=(2180, 955, 2185, 979)   #left top right bot
+    #bounds=(2180, 955, 2185, 979)   #left top right bot
+    bounds=(1540, 955, 1545, 979)   #left top right bot
     # (1540, 955, 1545, 979)
                        
     offset_x= 31     # 1771 - 1740
@@ -176,13 +183,14 @@ if (style == 1):
 
         if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
             keep_fish()
-            time.sleep(1)
+            time.sleep(2)
 
             if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
                 extend_day()
-        else:
+
+        elif pyautogui.locateOnScreen(black_keep_button_path, confidence=0.8) != None:
             release_fish()
-            time.sleep(1)
+            time.sleep(2)
 
             if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
                 extend_day()
@@ -215,13 +223,14 @@ elif (style == 0): #artificial
 
             if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
                 keep_fish()
-                time.sleep(1)
+                time.sleep(2)
 
                 if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
                     extend_day()
-            else:
+
+            elif pyautogui.locateOnScreen(black_keep_button_path, confidence=0.8) != None:
                 release_fish()
-                time.sleep(1)
+                time.sleep(2)
 
                 if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
                     extend_day()
