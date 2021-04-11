@@ -69,8 +69,8 @@ def hooked():
     #width, height = pic.size
     #pyautogui.displayMousePosition
 
-    #pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
-    pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    #pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
 
     r,g,b = pic.getpixel((20, 3))
 
@@ -148,9 +148,9 @@ def twiching():
 def is_zero():
     img = pyautogui.screenshot()
     data = np.array(img)
-    #bounds=(2180, 955, 2185, 979)   #left top right bot
-    bounds=(1540, 955, 1545, 979)   #left top right bot
-    # (1540, 955, 1545, 979)
+    bounds=(2180, 955, 2185, 979)   #left top right bot
+    #bounds=(1540, 955, 1545, 979)   #left top right bot
+    
                        
     offset_x= 31     # 1771 - 1740
     segment=data[bounds[1]:bounds[3], bounds[0]:bounds[2]]
@@ -161,42 +161,42 @@ def is_zero():
 
 
 time.sleep(2)
-if (style == 1):
-    print("Style--->1:Bottom/float...")
-    print("")
+
+if (style == 1): 
+    print("Style---> 2:Bottom/float...")
+    time.sleep(1)
+    cast(CASTING_TIME)
+    time.sleep(4)
+
     while True:
-        time.sleep(1.5)
-        cast(CASTING_TIME)
-        time.sleep(3)
+        time.sleep(0.2) 
+
+        if hooked() == True:
+            while is_zero() == False:
+                reel()
+                if keyboard.is_pressed('q') == True:
+                    break
+            time.sleep(4)
+
+            if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
+                keep_fish()
+                time.sleep(2)
+
+                if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+                    extend_day()
+
+            elif pyautogui.locateOnScreen(black_keep_button_path, confidence=0.8) != None:
+                release_fish()
+                time.sleep(2)
+
+                if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+                    extend_day()
+                else:
+                    next_day()
         
-        print("[STATUS] Wainting...")
-        print("")
-        while hooked() == False:
-            if keyboard.is_pressed('q') == True:
-                break
-        while is_zero == False:
-            if keyboard.is_pressed('q') == True:
-                break
-            reel()
-        
-        time.sleep(4)
-
-        if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
-            keep_fish()
-            time.sleep(2)
-
-            if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
-                extend_day()
-
-        elif pyautogui.locateOnScreen(black_keep_button_path, confidence=0.8) != None:
-            release_fish()
-            time.sleep(2)
-
-            if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
-                extend_day()
-            else:
-                next_day()
-        
+            time.sleep(1.5)
+            cast(CASTING_TIME)
+            time.sleep(3)
     
 elif (style == 0): #artificial
     print("Style---> 2:Artificial...")
@@ -210,6 +210,8 @@ elif (style == 0): #artificial
             print("[STATUS] Finished reeling.")
             print("")
             time.sleep(1)
+            if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+                    extend_day()
             cast(CASTING_TIME)
             time.sleep(5) 
           
@@ -241,18 +243,3 @@ elif (style == 0): #artificial
             cast(CASTING_TIME)
             time.sleep(3)
         
-    
-        # else:
-           # release_fish()
-           # time.sleep(1)
-
-           # if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
-           #     extend_day()
-           # else:
-           #     next_day()
-
-           # time.sleep(1)
-           # cast(CASTING_TIME)
-           # time.sleep(3)
-    
-
