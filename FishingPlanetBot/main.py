@@ -185,7 +185,7 @@ if (style == 2):
             time.sleep(1)
             while is_zero() == False:
                 reel()
-            time.sleep(1.5)
+            time.sleep(3)
             verification()
             cast(CASTING_TIME)
             time.sleep(4)
@@ -198,10 +198,10 @@ elif (style == 1): #artificial
         if is_zero():
             print("[STATUS] Finished reeling.")
             print("")
-            time.sleep(1.5)
+            time.sleep(3)
             verification()
             mouse.release(Button.right)
-            time.sleep(0.1)        
+            time.sleep(0.2)        
             cast(CASTING_TIME)
             time.sleep(4) 
           
