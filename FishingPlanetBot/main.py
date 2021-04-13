@@ -54,6 +54,8 @@ black_keep_button_path = 'black_keep_button.png'
 release_button_path = 'release_button.png'
 extend_button_path = 'extend_button.png'
 next_morning_button_path = 'next_morning_button.png'
+close_button_path = 'close_button.png'
+gray_close_button_path = 'gray_close_button.png'
 
 #functions
 def click(x,y):
@@ -101,7 +103,7 @@ def release_fish():
 
 def extend_day():
     mouse.position = (pyautogui.locateCenterOnScreen(extend_button_path, confidence=0.8))
-    time.sleep(0.1)
+    time.sleep(0.2)
     mouse.press(Button.left)
     time.sleep(0.2)
     mouse.release(Button.left)
@@ -150,6 +152,31 @@ def is_zero():
     else:
         return False    
 
+def close():
+    mouse.position = pyautogui.locateCenterOnScreen(close_button_path, confidence=0.8)
+    time.sleep(0.2)
+    mouse.press(Button.left)
+    time.sleep(0.2)
+    mouse.release(Button.left)
+    time.sleep(0.5)
+
+def gray_close():
+    mouse.position = pyautogui.locateCenterOnScreen(gray_close_button_path, confidence=0.8)
+    time.sleep(0.2)
+    mouse.press(Button.left)
+    time.sleep(0.2)
+    mouse.release(Button.left)
+    time.sleep(0.5)
+
+
+def achiv():
+    if pyautogui.locateOnScreen(close_button_path, confidence=0.8) != None:
+        close()
+        time.sleep(2)
+    elif pyautogui.locateOnScreen(gray_close_button_path, confidence=0.8) != None:
+        gray_close()
+        time.sleep(2)
+
 def verification():
     if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
         keep_fish()
@@ -159,16 +186,23 @@ def verification():
         release_fish()
         time.sleep(3)
 
+        achiv()
+
         if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
             extend_day()
             time.sleep(3)
+            achiv()
         else:
             next_day()
             time.sleep(3)
+            achiv()
+
+    achiv()
 
     if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
             extend_day()
             time.sleep(3)
+            achiv()
 
 time.sleep(2)
 
