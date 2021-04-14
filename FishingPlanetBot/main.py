@@ -41,7 +41,7 @@ print("")
 
 #vars
 FULL_CASTING_TIME = 1.9
-FULL_CASTING_LENGTH = 38
+FULL_CASTING_LENGTH = 51
 
 
 if CAST_LENGTH  == 0:
@@ -56,6 +56,7 @@ extend_button_path = 'extend_button.png'
 next_morning_button_path = 'next_morning_button.png'
 close_button_path = 'close_button.png'
 gray_close_button_path = 'gray_close_button.png'
+ok_button_path = 'ok_button.png'
 
 #functions
 def click(x,y):
@@ -168,13 +169,25 @@ def gray_close():
     mouse.release(Button.left)
     time.sleep(0.5)
 
-
 def achiv():
     if pyautogui.locateOnScreen(close_button_path, confidence=0.8) != None:
         close()
         time.sleep(2)
     elif pyautogui.locateOnScreen(gray_close_button_path, confidence=0.8) != None:
         gray_close()
+        time.sleep(2)
+
+def ok():
+    mouse.position = pyautogui.locateCenterOnScreen(ok_button_path, confidence=0.8)
+    time.sleep(0.2)
+    mouse.press(Button.left)
+    time.sleep(0.2)
+    mouse.release(Button.left)
+    time.sleep(0.5)
+
+def level():
+    if pyautogui.locateOnScreen(ok_button_path, confidence=0.8) != None:
+        ok()
         time.sleep(2)
 
 def verification():
@@ -186,6 +199,7 @@ def verification():
         release_fish()
         time.sleep(3)
 
+        level()
         achiv()
 
         if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
@@ -197,6 +211,7 @@ def verification():
             time.sleep(3)
             achiv()
 
+    level()
     achiv()
 
     if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
@@ -247,4 +262,3 @@ elif (style == 1): #artificial
         if hooked() == True:
             while is_zero() == False:
                 reel()
-        
