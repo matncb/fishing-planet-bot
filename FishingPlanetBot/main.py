@@ -42,12 +42,16 @@ print("")
 #vars
 FULL_CASTING_TIME = 1.9
 FULL_CASTING_LENGTH = 51
-
+#REGION = (2249, 794, 43, 6)
+#BOUNDS = (2180, 955, 2185, 979)
+REGION = (1610, 793, (1654-1610), (800-793))    # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+BOUNDS = (1540, 955, 1545, 979)                 # left top right bot
 
 if CAST_LENGTH  == 0:
     CAST_LENGTH = FULL_CASTING_LENGTH
-    
+
 CASTING_TIME = (CAST_LENGTH * (FULL_CASTING_TIME - 0.9))/FULL_CASTING_LENGTH + 0.9
+
 
 keep_button_path = 'keep_button.png'
 black_keep_button_path = 'black_keep_button.png'
@@ -80,13 +84,12 @@ def hooked():
     #width, height = pic.size
     #pyautogui.displayMousePosition
 
-    pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
-    #pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    pic = pyautogui.screenshot(region=REGION)   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
 
     r,g,b = pic.getpixel((20, 3))
 
     if b in range(185,200):
-        print("[Status] Fish on !!!")
+        print("[STATUS] Fish on !!!")
         print("")
         return True
         
@@ -142,8 +145,7 @@ def twiching():
 def is_zero():
     img = pyautogui.screenshot()
     data = np.array(img)
-    bounds=(2180, 955, 2185, 979)   #left top right bot
-    #bounds=(1540, 955, 1545, 979)   #left top right bot
+    bounds= BOUNDS
     
                        
     offset_x= 31     # 1771 - 1740
@@ -173,7 +175,7 @@ def achiv():
     if pyautogui.locateOnScreen(close_button_path, confidence=0.8) != None:
         close()
         time.sleep(2)
-    elif pyautogui.locateOnScreen(gray_close_button_path, confidence=0.8) != None:
+    if pyautogui.locateOnScreen(gray_close_button_path, confidence=0.8) != None:
         gray_close()
         time.sleep(2)
 
@@ -215,9 +217,9 @@ def verification():
     achiv()
 
     if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
-            extend_day()
-            time.sleep(3)
-            achiv()
+        extend_day()
+        time.sleep(3)
+        achiv()
 
 time.sleep(2)
 
