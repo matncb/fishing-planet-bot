@@ -80,8 +80,8 @@ def hooked():
     #width, height = pic.size
     #pyautogui.displayMousePosition
 
-    pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
-    #pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    #pic = pyautogui.screenshot(region=(2249, 794, 43, 6))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
+    pic = pyautogui.screenshot(region=(1610, 793, (1654-1610), (800-793)))   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
 
     r,g,b = pic.getpixel((20, 3))
 
@@ -131,7 +131,8 @@ def stopgo():
 
 def twiching():
     mouse.press(Button.left)
-    time.sleep(2)
+    #time.sleep(2)
+    time.sleep(3)
     mouse.release(Button.left)
     time.sleep(0.1)
     mouse.press(Button.right)
@@ -142,8 +143,8 @@ def twiching():
 def is_zero():
     img = pyautogui.screenshot()
     data = np.array(img)
-    bounds=(2180, 955, 2185, 979)   #left top right bot
-    #bounds=(1540, 955, 1545, 979)   #left top right bot
+    #bounds=(2180, 955, 2185, 979)   #left top right bot
+    bounds=(1540, 955, 1545, 979)   #left top right bot
     
                        
     offset_x= 31     # 1771 - 1740
@@ -173,7 +174,7 @@ def achiv():
     if pyautogui.locateOnScreen(close_button_path, confidence=0.8) != None:
         close()
         time.sleep(2)
-    elif pyautogui.locateOnScreen(gray_close_button_path, confidence=0.8) != None:
+    if pyautogui.locateOnScreen(gray_close_button_path, confidence=0.8) != None:
         gray_close()
         time.sleep(2)
 
