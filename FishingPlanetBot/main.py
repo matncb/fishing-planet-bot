@@ -1,10 +1,8 @@
-from pyautogui import *
 import pyautogui
 import time
 import keyboard
 import random
 import numpy as np
-import win32api, win32con
 from pynput.mouse import Button, Controller
 mouse = Controller()
 
@@ -42,10 +40,7 @@ print("")
 #vars
 FULL_CASTING_TIME = 1.9
 FULL_CASTING_LENGTH = 51
-#REGION = (2249, 794, 43, 6)
-#BOUNDS = (2180, 955, 2185, 979)
-REGION = (1610, 793, (1654-1610), (800-793))    # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
-BOUNDS = (1540, 955, 1545, 979)                 # left top right bot
+zero_thres = 10                     
 
 if CAST_LENGTH  == 0:
     CAST_LENGTH = FULL_CASTING_LENGTH
@@ -61,12 +56,14 @@ next_morning_button_path = 'next_morning_button.png'
 close_button_path = 'close_button.png'
 gray_close_button_path = 'gray_close_button.png'
 ok_button_path = 'ok_button.png'
+box_path = 'box.png'
+zero_path = 'zero.png'
 
 #functions
-def click(x,y):
-    win32api.SetCursorPos((x,y))
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0)
+def key(coisa):
+    keyboard.press(coisa)
+    time.sleep(0.1)
+    keyboard.release(coisa)
 
 def cast(CASTING_TIME):
     mouse.press(Button.left)
@@ -81,28 +78,25 @@ def reel():
     mouse.release(Button.right)
 
 def hooked():
-    #width, height = pic.size
-    #pyautogui.displayMousePosition
-
-    pic = pyautogui.screenshot(region=REGION)   # (x1,y1) (x2, y2)  ----->  (x1, y1, x2-x1, y2-y1)
-
-    r,g,b = pic.getpixel((20, 3))
-
-    if b in range(185,200):
-        print("[STATUS] Fish on !!!")
-        print("")
+    if pyautogui.locateOnScreen(box_path, confidence=0.8) != None:
         return True
-        
     else:
-        #print("Não fisgou !!!")
         return False
 
 def keep_fish():
-    pyautogui.press('space')
+    mouse.position = (pyautogui.locateCenterOnScreen(keep_button_path, confidence=0.8))
+    time.sleep(0.2)
+    mouse.press(Button.left)
+    time.sleep(0.2)
+    mouse.release(Button.left)
     time.sleep(0.5)
 
 def release_fish():
-    pyautogui.press('backspace')
+    mouse.position = (pyautogui.locateCenterOnScreen(release_button_path, confidence=0.8))
+    time.sleep(0.2)
+    mouse.press(Button.left)
+    time.sleep(0.2)
+    mouse.release(Button.left)
     time.sleep(0.5)
 
 def extend_day():
@@ -112,11 +106,11 @@ def extend_day():
     time.sleep(0.2)
     mouse.release(Button.left)
     time.sleep(0.5)
-    pyautogui.press('esc')
+    key('esc')
     time.sleep(0.5)
 
 def next_day():
-    pyautogui.press('t')
+    key('t')
     time.sleep(0.5)
     mouse.position = (pyautogui.locateCenterOnScreen(next_morning_button_path, confidence=0.8))
     time.sleep(0.2)
@@ -143,17 +137,22 @@ def twiching():
     time.sleep(0.1)
 
 def is_zero():
-    img = pyautogui.screenshot()
-    data = np.array(img)
-    bounds= BOUNDS
-    
-                       
-    offset_x= 31     # 1771 - 1740
-    segment=data[bounds[1]:bounds[3], bounds[0]:bounds[2]]
-    if (segment== (247, 247, 247)).all():
-        return True
+    z = pyautogui.locateCenterOnScreen(zero_path, confidence=0.8)
+
+    if z != None:
+        soma = abs(z[0] + z[1] - zero_pos[0] - zero_pos[1])
+
+        if soma <= zero_thres:
+            return True
+        else:
+            return False
     else:
-        return False    
+        return False
+
+
+def calibration():
+    zero_pos = pyautogui.locateCenterOnScreen(zero_path, confidence=0.8)
+    return zero_pos
 
 def close():
     mouse.position = pyautogui.locateCenterOnScreen(close_button_path, confidence=0.8)
@@ -223,8 +222,9 @@ def verification():
 
 time.sleep(2)
 
+zero_pos = calibration()
+
 if (style == 2): 
-    print("Style---> 2:Bottom/float...")
     time.sleep(1)
     cast(CASTING_TIME)
     time.sleep(4)
@@ -242,13 +242,10 @@ if (style == 2):
             time.sleep(4)
     
 elif (style == 1): #artificial
-    print("Style---> 2:Artificial...")
     time.sleep(1)
 
     while True:
         if is_zero():
-            print("[STATUS] Finished reeling.")
-            print("")
             time.sleep(3)
             verification()
             mouse.release(Button.right)
