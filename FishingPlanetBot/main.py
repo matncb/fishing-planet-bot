@@ -73,7 +73,7 @@ def cast(CASTING_TIME):
 def reel():
     mouse.press(Button.right)
     mouse.press(Button.left)
-    time.sleep(1)
+    time.sleep(2)
     mouse.release(Button.left)
     mouse.release(Button.right)
 
@@ -84,20 +84,10 @@ def hooked():
         return False
 
 def keep_fish():
-    mouse.position = (pyautogui.locateCenterOnScreen(keep_button_path, confidence=0.8))
-    time.sleep(0.2)
-    mouse.press(Button.left)
-    time.sleep(0.2)
-    mouse.release(Button.left)
-    time.sleep(0.5)
+    key('space')
 
 def release_fish():
-    mouse.position = (pyautogui.locateCenterOnScreen(release_button_path, confidence=0.8))
-    time.sleep(0.2)
-    mouse.press(Button.left)
-    time.sleep(0.2)
-    mouse.release(Button.left)
-    time.sleep(0.5)
+    key('backspace')
 
 def extend_day():
     mouse.position = (pyautogui.locateCenterOnScreen(extend_button_path, confidence=0.8))
