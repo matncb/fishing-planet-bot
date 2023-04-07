@@ -66,9 +66,7 @@ def key(coisa):
     keyboard.release(coisa)
 
 def cast(CASTING_TIME):
-    mouse.press(Button.left)
-    time.sleep(CASTING_TIME)
-    mouse.release(Button.left)
+wwww
     
 def reel():
     mouse.press(Button.right)
