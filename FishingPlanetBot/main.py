@@ -40,7 +40,10 @@ print("")
 #vars
 FULL_CASTING_TIME = 1.9
 FULL_CASTING_LENGTH = 51
-zero_thres = 10                     
+
+zero_thres = 10
+CONFIDENCE = 0.9
+CONFIDENCE_BUTTON = 0.75                     
 
 if CAST_LENGTH  == 0:
     CAST_LENGTH = FULL_CASTING_LENGTH
@@ -58,6 +61,7 @@ gray_close_button_path = 'gray_close_button.png'
 ok_button_path = 'ok_button.png'
 box_path = 'box.png'
 zero_path = 'zero.png'
+discard_button_path = 'discard_button.png'
 
 #functions
 def key(coisa):
@@ -78,7 +82,7 @@ def reel():
     mouse.release(Button.right)
 
 def hooked():
-    if pyautogui.locateOnScreen(box_path, confidence=0.8) != None:
+    if pyautogui.locateOnScreen(box_path, confidence=CONFIDENCE) != None:
         return True
     else:
         return False
@@ -89,8 +93,16 @@ def keep_fish():
 def release_fish():
     key('backspace')
 
+def discard():
+    mouse.position = (pyautogui.locateCenterOnScreen(discard_button_path, confidence=CONFIDENCE_BUTTON))
+    time.sleep(0.2)
+    mouse.press(Button.left)
+    time.sleep(0.2)
+    mouse.release(Button.left)
+    time.sleep(0.5)
+
 def extend_day():
-    mouse.position = (pyautogui.locateCenterOnScreen(extend_button_path, confidence=0.8))
+    mouse.position = (pyautogui.locateCenterOnScreen(extend_button_path, confidence=CONFIDENCE_BUTTON))
     time.sleep(0.2)
     mouse.press(Button.left)
     time.sleep(0.2)
@@ -102,7 +114,7 @@ def extend_day():
 def next_day():
     key('t')
     time.sleep(0.5)
-    mouse.position = (pyautogui.locateCenterOnScreen(next_morning_button_path, confidence=0.8))
+    mouse.position = (pyautogui.locateCenterOnScreen(next_morning_button_path, confidence=CONFIDENCE_BUTTON))
     time.sleep(0.2)
     mouse.press(Button.left)
     time.sleep(0.2)
@@ -127,7 +139,7 @@ def twiching():
     time.sleep(0.1)
 
 def is_zero():
-    z = pyautogui.locateCenterOnScreen(zero_path, confidence=0.8)
+    z = pyautogui.locateCenterOnScreen(zero_path, confidence=CONFIDENCE)
 
     if z != None:
         soma = abs(z[0] + z[1] - zero_pos[0] - zero_pos[1])
@@ -141,11 +153,11 @@ def is_zero():
 
 
 def calibration():
-    zero_pos = pyautogui.locateCenterOnScreen(zero_path, confidence=0.8)
+    zero_pos = pyautogui.locateCenterOnScreen(zero_path, confidence=CONFIDENCE)
     return zero_pos
 
 def close():
-    mouse.position = pyautogui.locateCenterOnScreen(close_button_path, confidence=0.8)
+    mouse.position = pyautogui.locateCenterOnScreen(close_button_path, confidence=CONFIDENCE_BUTTON)
     time.sleep(0.2)
     mouse.press(Button.left)
     time.sleep(0.2)
@@ -153,7 +165,7 @@ def close():
     time.sleep(0.5)
 
 def gray_close():
-    mouse.position = pyautogui.locateCenterOnScreen(gray_close_button_path, confidence=0.8)
+    mouse.position = pyautogui.locateCenterOnScreen(gray_close_button_path, confidence=CONFIDENCE_BUTTON)
     time.sleep(0.2)
     mouse.press(Button.left)
     time.sleep(0.2)
@@ -161,15 +173,15 @@ def gray_close():
     time.sleep(0.5)
 
 def achiv():
-    if pyautogui.locateOnScreen(close_button_path, confidence=0.8) != None:
+    if pyautogui.locateOnScreen(close_button_path, confidence=CONFIDENCE_BUTTON) != None:
         close()
         time.sleep(2)
-    if pyautogui.locateOnScreen(gray_close_button_path, confidence=0.8) != None:
+    if pyautogui.locateOnScreen(gray_close_button_path, confidence=CONFIDENCE_BUTTON) != None:
         gray_close()
         time.sleep(2)
 
 def ok():
-    mouse.position = pyautogui.locateCenterOnScreen(ok_button_path, confidence=0.8)
+    mouse.position = pyautogui.locateCenterOnScreen(ok_button_path, confidence=CONFIDENCE_BUTTON)
     time.sleep(0.2)
     mouse.press(Button.left)
     time.sleep(0.2)
@@ -177,23 +189,24 @@ def ok():
     time.sleep(0.5)
 
 def level():
-    if pyautogui.locateOnScreen(ok_button_path, confidence=0.8) != None:
+    if pyautogui.locateOnScreen(ok_button_path, confidence=CONFIDENCE_BUTTON) != None:
         ok()
         time.sleep(2)
 
 def verification():
-    if pyautogui.locateOnScreen(keep_button_path, confidence=0.8) != None:
+    
+    if pyautogui.locateOnScreen(keep_button_path, confidence=CONFIDENCE_BUTTON) != None:
         keep_fish()
-        time.sleep(3)
+        time.sleep(2)
 
-    elif pyautogui.locateOnScreen(black_keep_button_path, confidence=0.8) != None:
+    elif pyautogui.locateOnScreen(black_keep_button_path, confidence=CONFIDENCE_BUTTON) != None:
         release_fish()
         time.sleep(3)
 
         level()
         achiv()
 
-        if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+        if pyautogui.locateOnScreen(extend_button_path, confidence=CONFIDENCE_BUTTON) != None:
             extend_day()
             time.sleep(3)
             achiv()
@@ -202,10 +215,15 @@ def verification():
             time.sleep(3)
             achiv()
 
+    elif pyautogui.locateOnScreen(discard_button_path, confidence=CONFIDENCE_BUTTON) != None:
+        discard()
+        time.sleep(2)
+
+
     level()
     achiv()
 
-    if pyautogui.locateOnScreen(extend_button_path, confidence=0.8) != None:
+    if pyautogui.locateOnScreen(extend_button_path, confidence=CONFIDENCE_BUTTON) != None:
         extend_day()
         time.sleep(3)
         achiv()
@@ -236,7 +254,7 @@ elif (style == 1): #artificial
 
     while True:
         if is_zero():
-            time.sleep(3)
+            time.sleep(1.7)
             verification()
             mouse.release(Button.right)
             time.sleep(0.2)        
@@ -249,5 +267,9 @@ elif (style == 1): #artificial
             twiching()
 
         if hooked() == True:
+            mouse.press(Button.right)
+            mouse.press(Button.left)
             while is_zero() == False:
-                reel()
+                pass    
+            mouse.release(Button.left)
+            mouse.release(Button.right)
