@@ -6,6 +6,7 @@ import numpy as np
 from pynput.mouse import Button, Controller
 mouse = Controller()
 
+#######################################################################
 #starting
 
 print("Welcome to the Fishing Planet Bot!")
@@ -15,7 +16,7 @@ print("Enter 1 for lure fishing")
 print("Enter 2 for bottom or float fishing")
 print("")
 
-style = int(input("Enter your style: "))
+style = int(input("Enter your style: ")) #selec style
 
 print("")
 
@@ -24,33 +25,43 @@ if style == 1:
     print("Enter 1 for stop and go")
     print("Enter 2 for twiching or popping")
     print("")
-    work = int(input("Enter the work: "))
+    work = int(input("Enter the work: ")) #selec work for lure
     print("")
 
 print("Enter your CAST_LENTH: ")
 print("Enter 0 if you want to go default (full cast)")
 print("")
 
-CAST_LENGTH = int(input("Enter the CAST_LENGTH: "))
+CAST_LENGTH = int(input("Enter the CAST_LENGTH: ")) #Casting lenght
 
 print("")
 print("[STATUS] Starting...")
 print("")
 
-#vars
-FULL_CASTING_TIME = 1.9
-FULL_CASTING_LENGTH = 51
+########################################################################
+#load configs
 
-zero_thres = 10
-CONFIDENCE = 0.9
-CONFIDENCE_BUTTON = 0.75                     
+import configparser  #para carregar as configurações
+Config = configparser.ConfigParser()
+Config.read("config.ini") #ler arquivo de configurações
 
+FULL_CASTING_TIME = float(Config.get('Casting', 'FULL_CASTING_TIME'))
+FULL_CASTING_LENGTH = float(Config.get('Casting', 'FULL_CASTING_LENGTH'))
+SINKING_TIME = float(Config.get('Casting', 'SINKING_TIME'))
+
+ZERO_THRES =  float(Config.get('Confidence', 'ZERO_THRES'))
+CONFIDENCE = float(Config.get('Confidence', 'CONFIDENCE'))
+CONFIDENCE_BUTTON = float(Config.get('Confidence', 'CONFIDENCE_BUTTON'))   
+
+VERBOSE = bool(Config.get('Verbose', 'VERBOSE'))
+
+#calculos com base nos parametros carregados
 if CAST_LENGTH  == 0:
     CAST_LENGTH = FULL_CASTING_LENGTH
 
-CASTING_TIME = (CAST_LENGTH * (FULL_CASTING_TIME - 0.9))/FULL_CASTING_LENGTH + 0.9
+CASTING_TIME = (CAST_LENGTH * (FULL_CASTING_TIME - 0.9))/FULL_CASTING_LENGTH + 0.9 #calculo do tempo de lancamento --> puramente empirico
 
-
+#carrega os caminhos das imagens necessarias
 keep_button_path = './images/keep_button.png'
 black_keep_button_path = './images/black_keep_button.png'
 release_button_path = './images/release_button.png'
@@ -63,7 +74,9 @@ box_path = './images/box.png'
 zero_path = './images/zero.png'
 discard_button_path = './images/discard_button.png'
 
-#functions
+########################################################################################
+#funcoes genericas
+
 def key(coisa):
     keyboard.press(coisa)
     time.sleep(0.1)
@@ -88,9 +101,11 @@ def hooked():
         return False
 
 def keep_fish():
+    if VERBOSE: print("[STATUS] Kept fish!")
     key('space')
 
 def release_fish():
+    if VERBOSE: print("[STATUS] Realeased fish!")
     key('backspace')
 
 def discard():
@@ -100,6 +115,7 @@ def discard():
     time.sleep(0.2)
     mouse.release(Button.left)
     time.sleep(0.5)
+    if VERBOSE: print("[STATUS] Discarted something!")
 
 def extend_day():
     mouse.position = (pyautogui.locateCenterOnScreen(extend_button_path, confidence=CONFIDENCE_BUTTON))
@@ -122,29 +138,12 @@ def next_day():
     time.sleep(0.5)
     extend_day()
 
-def stopgo():
-    mouse.press(Button.left)
-    time.sleep(2)
-    mouse.release(Button.left)
-    time.sleep(0.7) 
-
-def twiching():
-    mouse.press(Button.left)
-    time.sleep(2)
-    mouse.release(Button.left)
-    time.sleep(0.1)
-    mouse.press(Button.right)
-    time.sleep(0.7)
-    mouse.release(Button.right)
-    time.sleep(0.1)
-
 def is_zero():
     z = pyautogui.locateCenterOnScreen(zero_path, confidence=CONFIDENCE)
 
     if z != None:
         soma = abs(z[0] + z[1] - zero_pos[0] - zero_pos[1])
-
-        if soma <= zero_thres:
+        if soma <= ZERO_THRES: #verificacao se o zero em questao esta na posicao correta
             return True
         else:
             return False
@@ -153,7 +152,17 @@ def is_zero():
 
 
 def calibration():
+    print("[STATUS] Calibrating zero...")
     zero_pos = pyautogui.locateCenterOnScreen(zero_path, confidence=CONFIDENCE)
+
+    if zero_pos != None:
+        print("[STATUS] Done.")
+    else:
+        print("[STATUS] No zero found.")
+        print("[STATUS] Quiting...")
+        exit()
+    print("")
+
     return zero_pos
 
 def close():
@@ -193,6 +202,35 @@ def level():
         ok()
         time.sleep(2)
 
+##############################################################################
+#trabalhos
+
+STOPGO_PRESSING_TIME = float(Config.get('Stopgo', 'STOPGO_PRESSING_TIME'))
+STOPGO_RELEASE_TIME = float(Config.get('Stopgo', 'STOPGO_RELEASE_TIME'))
+
+def stopgo():
+    mouse.press(Button.left)
+    time.sleep(STOPGO_PRESSING_TIME)
+    mouse.release(Button.left)
+    time.sleep(STOPGO_RELEASE_TIME) 
+
+TWICHING_LEFT_PRESSING_TIME = float(Config.get('Twiching', 'TWICHING_LEFT_PRESSING_TIME'))
+TWICHING_RIGHT_PRESSING_TIME = float(Config.get('Twiching', 'TWICHING_RIGHT_PRESSING_TIME'))
+
+def twiching():
+    mouse.press(Button.left)
+    time.sleep(TWICHING_LEFT_PRESSING_TIME)
+    mouse.release(Button.left)
+    time.sleep(0.1)
+    mouse.press(Button.right)
+    time.sleep(TWICHING_RIGHT_PRESSING_TIME)
+    mouse.release(Button.right)
+    time.sleep(0.1)
+
+
+##############################################################################################################
+#ordem das verificacoes 
+
 def verification():
     
     if pyautogui.locateOnScreen(keep_button_path, confidence=CONFIDENCE_BUTTON) != None:
@@ -228,9 +266,12 @@ def verification():
         time.sleep(3)
         achiv()
 
+###################################################################################################################
+#inicio da pescaria
+
 time.sleep(2)
 
-zero_pos = calibration()
+zero_pos = calibration() #calibra a posicao do zero
 
 if (style == 2): 
     time.sleep(1)
@@ -247,7 +288,7 @@ if (style == 2):
             time.sleep(3)
             verification()
             cast(CASTING_TIME)
-            time.sleep(4)
+            time.sleep(SINKING_TIME)
     
 elif (style == 1): #artificial
     time.sleep(1)
@@ -256,10 +297,12 @@ elif (style == 1): #artificial
         if is_zero():
             time.sleep(1.7)
             verification()
-            mouse.release(Button.right)
-            time.sleep(0.2)        
+            time.sleep(0.2)
+
+            if VERBOSE: print("[STATUS] Casting...")
+
             cast(CASTING_TIME)
-            time.sleep(4) 
+            time.sleep(SINKING_TIME) 
           
         if work == 1:
             stopgo()
@@ -267,6 +310,8 @@ elif (style == 1): #artificial
             twiching()
 
         if hooked() == True:
+            if VERBOSE: print("[STATUS] Hooked!!")
+
             mouse.press(Button.right)
             mouse.press(Button.left)
             while is_zero() == False:
