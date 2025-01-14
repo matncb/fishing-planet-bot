@@ -51,17 +51,17 @@ if CAST_LENGTH  == 0:
 CASTING_TIME = (CAST_LENGTH * (FULL_CASTING_TIME - 0.9))/FULL_CASTING_LENGTH + 0.9
 
 
-keep_button_path = 'keep_button.png'
-black_keep_button_path = 'black_keep_button.png'
-release_button_path = 'release_button.png'
-extend_button_path = 'extend_button.png'
-next_morning_button_path = 'next_morning_button.png'
-close_button_path = 'close_button.png'
-gray_close_button_path = 'gray_close_button.png'
-ok_button_path = 'ok_button.png'
-box_path = 'box.png'
-zero_path = 'zero.png'
-discard_button_path = 'discard_button.png'
+keep_button_path = './images/keep_button.png'
+black_keep_button_path = './images/black_keep_button.png'
+release_button_path = './images/release_button.png'
+extend_button_path = './images/extend_button.png'
+next_morning_button_path = './images/next_morning_button.png'
+close_button_path = './images/close_button.png'
+gray_close_button_path = './images/gray_close_button.png'
+ok_button_path = './images/ok_button.png'
+box_path = './images/box.png'
+zero_path = './images/zero.png'
+discard_button_path = './images/discard_button.png'
 
 #functions
 def key(coisa):
